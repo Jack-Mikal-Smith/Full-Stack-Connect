@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/connection');
 
 class JobPostings extends Model {}
 
@@ -24,7 +24,7 @@ JobPostings.init(
       allowNull: false,
     },
     user_id : {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'user',
         key: 'id',
