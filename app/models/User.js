@@ -1,4 +1,3 @@
-// Example model definition
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
@@ -51,9 +50,14 @@ User.init(
     employed: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      validate: {
-        
-      }
+    },
+    organization: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
