@@ -1,4 +1,5 @@
 // Assuming you have a Project model
+const { title } = require('process');
 const Project = require('../models/Projects');
 
 exports.getAll = async (req, res) => {
@@ -42,16 +43,18 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { id } = req.params;
-  const { name, price } = req.body;
+  const { title, description } = req.body;
   try {
     // Update a specific project by its ID in the database
     const project = await Project.findByPk(id);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
-    project.name = name;
-    project.price = price;
+    project.title = title;
+    project.description = description;
+    console.log('1');
     await project.save();
+    console.log('2');
     res.json(project);
   } catch (error) {
     console.log(error);
