@@ -5,7 +5,8 @@ const app = express();
 
 // Define routes
 console.log(controllers); // Log the controllers object to check its contents
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.get('/', controllers.HomeController.index);
 app.get('/users', controllers.UserController.getAll);
 app.post('/users', controllers.UserController.create);
