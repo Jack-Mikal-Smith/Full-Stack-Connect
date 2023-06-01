@@ -1,9 +1,54 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+const { User } = require('../../models');
 
-const UserController = require('../UserController');
+router.post('/', async (req, res) => {
+    try {
+        const userData = await User.create(req.body);
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.logged_in = true;
+            res.status(200).json(userData);
+        })
+    } catch (err) {
+        res.status(400).json(err);
+    }
+})
 
-// Define the POST route for creating a user
-router.post('/', UserController.create);
+// login username and password setup
+router.post('/login', async (req, res) => {
+    try {
+        // need to add email to it also so we can login with either username or password
+        const userData = await User.findOne({ where: { userName: req.body.userName } });
+        if  (!userData) {
+            res
+            .status(400)
+            .json({ message: 'Sorry invalid Username or Password! Please try again' });
+        }
+        const password = await userData.checkpassword(req.body.password);
+        if (!password) {
+            res
+            .status(400)
+            .json({ message: 'Sorry invalid Username or Password! Please try again' }); 
+        }
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.logged_in = true;
+            res.json({ user: userData, message: 'Thank you for logging in!' });
+        });
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
-module.exports = router;
+// ends session and deastroys it
+router.post('/logout', (req, res) => {
+    if (req.session.logged_in) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    } else {
+        res.status(404).end();
+    }
+});
+
+module.exports = router; 
