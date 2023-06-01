@@ -29,10 +29,10 @@ exports.getById = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { name, price } = req.body;
   try {
+    console.log({...req.body})
     // Create a new project in the database
-    const project = await Project.create({ name, price });
+    const project = await Project.create({...req.body});
     res.status(201).json(project);
   } catch (error) {
     console.log(error);
