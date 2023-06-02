@@ -1,10 +1,10 @@
 const { or } = require('../../config/connection');
-const Job = require('../models/JobPostings');
+const JobPostings = require('../models/JobPostings');
 
 exports.getAll = async (req, res) => {
   try {
     // Get all projects from the database
-    const job = await job.findAll();
+    const job = await JobPostings.findAll();
     console.log(job);
     res.json(job);
   } catch (error) {
@@ -17,7 +17,7 @@ exports.getById = async (req, res) => {
   const { id } = req.params;
   try {
     // Get a specific job by its ID from the database
-    const job = await Job.findByPk(id);
+    const job = await JobPostings.findByPk(id);
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
   try {
     console.log({...req.body})
     // Create a new job in the database
-    const job = await Job.create({...req.body});
+    const job = await JobPostings.create({...req.body});
     res.status(201).json(job);
   } catch (error) {
     console.log(error);
@@ -45,7 +45,7 @@ exports.update = async (req, res) => {
   const { organization, position, description } = req.body;
   try {
     // Update a specific job by its ID in the database
-    const job = await Job.findByPk(id);
+    const job = await JobPostings.findByPk(id);
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
@@ -64,7 +64,7 @@ exports.delete = async (req, res) => {
   const { id } = req.params;
   try {
     // Delete a specific job by its ID from the database
-    const job = await Job.findByPk(id);
+    const job = await JobPostings.findByPk(id);
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }

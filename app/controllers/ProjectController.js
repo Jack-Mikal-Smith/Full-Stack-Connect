@@ -1,5 +1,4 @@
 // Assuming you have a Project model
-const { title } = require('process');
 const Project = require('../models/Projects');
 
 exports.getAll = async (req, res) => {
@@ -52,9 +51,7 @@ exports.update = async (req, res) => {
     }
     project.title = title;
     project.description = description;
-    console.log('1');
     await project.save();
-    console.log('2');
     res.json(project);
   } catch (error) {
     console.log(error);
