@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         // need to add email to it also so we can login with either username or password
-        const userData = await User.findOne({ where: { userName: req.body.userName } });
+        const userData = await User.findOne({ where: { email: req.body.email } });
         if  (!userData) {
             res
             .status(400)
@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
         if (!password) {
             res
             .status(400)
-            .json({ message: 'Sorry invalid Username or Password! Please try again' }); 
+            .json({ message: 'Sorry invalid Email or Password! Please try again' }); 
         }
         req.session.save(() => {
             req.session.user_id = userData.id;
