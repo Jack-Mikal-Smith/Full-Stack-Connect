@@ -5,6 +5,7 @@ exports.getAll = async (req, res) => {
   try {
     // Get all users from the database
     const users = await User.findAll();
+    console.log(users);
     res.json(users);
   } catch (error) {
     console.log(error);
@@ -14,9 +15,8 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const user = await User.create({ name, email, password });
-    res.json(user);
+    const users = await User.create({...req.body});
+    res.status(201).json(users);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server Error' });
@@ -40,14 +40,16 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password, gitHub } = req.body;
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    user.name = name;
+    user.firstName = firstName;
+    user.lastName = lastName;
     user.email = email;
     user.password = password;
+    user.gitHub = gitHub;
     await user.save();
     res.json(user);
   } catch (error) {
