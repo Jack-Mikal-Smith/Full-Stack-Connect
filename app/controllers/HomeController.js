@@ -28,7 +28,7 @@ const HomeController = {
       req.session.user = { id: user.id, email: user.email };
 
       // Redirect to authenticated area or any other desired location
-      res.redirect('/users');
+      res.redirect(303, '/main');
     } catch (error) {
       console.error('Error during login:', error);
       res.render('layouts/main', { layout: false, error: 'An error occurred during login' });

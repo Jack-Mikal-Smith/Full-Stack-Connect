@@ -2,7 +2,8 @@ header {
   align-items: center;
   color: white;
   background-color: blue;
-  font-size: 1rem bold;
+  font-size: 1rem;
+  font-weight: bold;
   padding: 1rem;
 }
 
@@ -12,7 +13,7 @@ header {
   justify-content: right;
   color: black;
   background-color: rgb(14, 139, 139);
-  border: 4px color white;
+  border: 4px solid white;
   font-size: larger;
 }
 
@@ -22,7 +23,6 @@ header {
   justify-content: left;
   font-size: larger;
   color: black;
-  border: 4px color white;
+  border: 4px solid white;
   background-color: rgb(14, 139, 139);
 }
-  

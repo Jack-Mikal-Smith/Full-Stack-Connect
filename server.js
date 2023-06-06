@@ -48,7 +48,7 @@ const isAuthenticated = (req, res, next) => {
 
 // Routes
 app.get('/', controllers.HomeController.renderSignIn);
-app.post('/signin', controllers.HomeController.signIn);
+app.post('/main', controllers.HomeController.signIn);
 app.post('/', controllers.HomeController.signIn);
 
 // Protected routes
@@ -72,6 +72,9 @@ app.post('/api/textposts', isAuthenticated, controllers.TextPostingController.cr
 app.get('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.getById);
 app.put('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.update);
 app.delete('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.delete);
+app.get('/main', isAuthenticated, (req, res) => {
+  res.render('layouts/main', { layout: false });
+});
 
 // Start the server
 const port = process.env.PORT || 3000;
