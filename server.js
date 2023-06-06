@@ -1,13 +1,22 @@
 const express = require('express');
+const path = require('path');
+const exphbs = require('express-handlebars');
 const controllers = require('./app/controllers'); // Assuming index.js is the default index file
 
 const app = express();
+
+// Configure the Handlebars templating engine
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'app', 'views'));
 
 // Define routes
 console.log(controllers); // Log the controllers object to check its contents
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get('/', controllers.HomeController.index);
+app.use(express.static(path.join(__dirname, 'app')));
+app.get('/', controllers.HomeController.renderSignIn); // Use the renderIndex method as the callback
+app.post('/', controllers.HomeController.signIn); // Use the signIn method as the callback
 app.get('/users', controllers.UserController.getAll);
 app.post('/users', controllers.UserController.create);
 app.get('/users/:id', controllers.UserController.getById);
