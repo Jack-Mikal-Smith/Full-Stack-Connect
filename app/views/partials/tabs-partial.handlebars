@@ -1,31 +1,34 @@
-<section class="nav">
-    <ol>
-        <li>
-            <a href="/main">
-             <header>Home</header>
-            </a>
-        </li>
-        <li>
-            <a href="/projects">
-             <header>Projects</header>
-            </a>
-        </li>
-        <li>
-            <a href="/jobposts">
-             <header>Job Postings</header>
-            </a>
-        </li>
-        {{#if loggedIn}}
-        <li>
-            <button id="logout" class="btn">Logout</button>
-        </li>
-        {{else}}
-        <li>
-            <a href="/login">Login</a>
-        </li>
-        {{/if}}
-    </ol>
+{{!-- tabs-partial.handlebars --}}
 
+<section class="nav">
+  <ol>
+    <li>
+      <a href="/users">
+        <header>Home</header>
+      </a>
+    </li>
+    <li>
+      <a href="/api/projects">
+        <header>Projects</header>
+      </a>
+    </li>
+    <li>
+      <a href="/jobpostings">
+        <header>Job Postings</header>
+      </a>
+    </li>
     {{#if loggedIn}}
+      <li>
+        <a href="/logout">Logout</a>
+      </li>
+    {{else}}
+      <li>
+        <a href="/login">Login</a>
+      </li>
+    {{/if}}
+  </ol>
+
+  {{#if loggedIn}}
     <script src="/public/js/"></script>
+  {{/if}}
 </section>

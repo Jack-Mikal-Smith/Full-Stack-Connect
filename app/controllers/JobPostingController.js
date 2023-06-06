@@ -3,15 +3,15 @@ const JobPostings = require('../models/JobPostings');
 
 exports.getAll = async (req, res) => {
   try {
-    // Get all projects from the database
-    const job = await JobPostings.findAll();
-    console.log(job);
-    res.json(job);
+    const jobPostings = await JobPostings.findAll();
+    console.log(jobPostings); // Add this line to check the retrieved data
+    res.json(jobPostings);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
 
 exports.getById = async (req, res) => {
   const { id } = req.params;
