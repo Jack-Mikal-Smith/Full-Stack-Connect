@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Add your custom styles here */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Add a placeholder element to render the signin.handlebars template -->
+    <div id="signinTemplate"></div>
+
+    <!-- Add the Handlebars script -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars/dist/handlebars.min.js"></script>
+    <script>
+      // Define your data object
+      var data = {
+        // Add your data variables here
+      };
+
+      // Retrieve the handlebars template from the signin.handlebars file
+      fetch('../../layouts/signin.handlebars')
+        .then(response => response.text())
+        .then(template => {
+          // Compile the template into a function
+          var compiledTemplate = Handlebars.compile(template);
+
+          // Render the template with the data
+          var renderedHTML = compiledTemplate(data);
+
+          // Insert the rendered HTML into the container
+          document.getElementById('signinTemplate').innerHTML = renderedHTML;
+        })
+        .catch(error => {
+          console.error('Error loading handlebars template:', error);
+        });
+    </script>
+  </div>
+</body>
+</html>
