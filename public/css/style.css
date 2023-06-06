@@ -1,13 +1,28 @@
-/* style.css */
+header {
+  align-items: center;
+  color: white;
+  background-color: blue;
+  font-size: 1rem bold;
+  padding: 1rem;
+}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f1f1f1;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  /* Other CSS rules */
+.main-container {
+  max-width: 50%;
+  align-items: center;
+  justify-content: right;
+  color: black;
+  background-color: rgb(14, 139, 139);
+  border: 4px color white;
+  font-size: larger;
+}
+
+.tabs-container {
+  max-width: 25%;
+  align-items: center;
+  justify-content: left;
+  font-size: larger;
+  color: black;
+  border: 4px color white;
+  background-color: rgb(14, 139, 139);
+}
   
