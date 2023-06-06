@@ -73,4 +73,4 @@ exports.delete = async (req, res) => {
   }
 };
 
-module.exports = exports;
+// module.exports = exports;

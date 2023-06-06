@@ -1,24 +1,24 @@
-<div {{{ tabs-partial }}}>
+
 <section class="nav">
     <ol>
         <li>
-            <a href="/app/controllers/HomeController.js">
+            <a href="/">
              <header>Home</header>
             </a>
         </li>
         <li>
-            <a href="/app/controllers/ProjectController.js">
+            <a href="/projects">
              <header>Projects</header>
             </a>
         </li>
         <li>
-            <a href="/app/controllers/JobPostingController.js">
+            <a href="/JobPostings">
              <header>Job Postings</header>
             </a>
         </li>
         {{#if loggedIn}}
         <li>
-            <button id="logout" class="btn">Logout</button>
+            <button href='#' id="logout" class="btn">Logout</button>
         </li>
         {{else}}
         <li>
@@ -30,4 +30,3 @@
     {{#if loggedIn}}
     <script src="/public/js/"></script>
 </section>
-</div>

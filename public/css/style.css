@@ -25,3 +25,48 @@ h1 {
     border: 4px color white;
     background-color: rgb(14, 139, 139);
   }
+
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    width: 300px;
+  }
+  
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #222;
+    color: #fff;
+  }
+  
+  .form-group input[type="email"]::placeholder,
+  .form-group input[type="password"]::placeholder {
+    color: #aaa;
+  }
+  
+  .form-group button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff6600;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .form-group button:hover {
+    background-color: #ff5500;
+  }
