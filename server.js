@@ -2,14 +2,26 @@ const express = require('express');
 const path = require('path');
 const sequelize = require('./config/connection');
 const exphbs = require('express-handlebars');
+
 const controllers = require('./app/controllers');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+// server.js
+const helpers = require('./public/js/helpers');
+const JobPostings = require('./app/models/JobPostings');
 
 const app = express();
 
 // Configure the Handlebars templating engine
-app.engine('handlebars', exphbs());
+app.engine(
+  'handlebars',
+  exphbs({
+    helpers: {
+      format_date: helpers.format_date,
+    },
+  })
+);
+
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'app', 'views'));
 
@@ -24,8 +36,8 @@ const sess = {
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
-    db: sequelize
-  })
+    db: sequelize,
+  }),
 };
 app.use(session(sess));
 
@@ -39,7 +51,7 @@ const isAuthenticated = (req, res, next) => {
   // Check if the user is authenticated (e.g., by checking the session or token)
   // If authenticated, call next() to proceed to the next middleware or route handler
   // If not authenticated, redirect or respond with an error
-  if (req.session.isAuthenticated) {
+  if (req.session.userId) {
     next();
   } else {
     res.redirect('/'); // Redirect to the sign-in page
@@ -48,12 +60,11 @@ const isAuthenticated = (req, res, next) => {
 
 // Routes
 app.get('/', controllers.HomeController.renderSignIn);
-app.post('/main', controllers.HomeController.signIn);
 app.post('/', controllers.HomeController.signIn);
 
 // Protected routes
 app.get('/users', isAuthenticated, controllers.UserController.getAll);
-app.post('/users', controllers.UserController.create);
+app.post('/users', isAuthenticated, controllers.UserController.create);
 app.get('/users/:id', isAuthenticated, controllers.UserController.getById);
 app.put('/users/:id', isAuthenticated, controllers.UserController.update);
 app.delete('/users/:id', isAuthenticated, controllers.UserController.delete);
@@ -78,7 +89,25 @@ app.delete('/api/textposts/:id', isAuthenticated, controllers.TextPostingControl
 // app.put('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.update);
 // app.delete('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.delete);
 app.get('/main', isAuthenticated, (req, res) => {
+  console.log('Accessing /main route');
   res.render('layouts/main', { layout: false });
+});
+app.get('/jobpostings', isAuthenticated, async (req, res) => {
+  try {
+    const jobPostings = await JobPostings.findAll();
+    res.render('all-posts', { jobPostings }); // Pass the jobPostings variable to the template
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+
+// Render all job postings
+app.get('/jobpostings', isAuthenticated, (req, res) => {
+  console.log('Accessing /jobpostings route');
+  res.render('all-posts', { layout: 'main' });
 });
 
 // Start the server

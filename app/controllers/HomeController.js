@@ -14,21 +14,24 @@ const HomeController = {
 
       if (!user) {
         // User not found
-        return res.render('layouts/main', { layout: false, error: 'Invalid email or password' });
+        return res.render('layouts/signin', { layout: false, error: 'Invalid email or password' });
       }
 
       // Verify password
       const isValidPassword = user.checkPassword(password);
       if (!isValidPassword) {
         // Invalid password
-        return res.render('layouts/main', { layout: false, error: 'Invalid email or password' });
+        return res.render('layouts/signin', { layout: false, error: 'Invalid email or password' });
       }
 
       // Store user information in session
-      req.session.user = { id: user.id, email: user.email };
+      req.session.userId = user.id;
+      // Set the loggedIn variable to true in the session
+    req.session.loggedIn = true;
 
       // Redirect to authenticated area or any other desired location
-      res.redirect(303, '/main');
+      console.log('Redirecting to /main');
+      res.redirect('/main');
     } catch (error) {
       console.error('Error during login:', error);
       res.render('layouts/main', { layout: false, error: 'An error occurred during login' });
