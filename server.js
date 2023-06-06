@@ -72,6 +72,11 @@ app.post('/api/textposts', isAuthenticated, controllers.TextPostingController.cr
 app.get('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.getById);
 app.put('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.update);
 app.delete('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.delete);
+// app.get('/api/jobposts', isAuthenticated, controllers.DashboardRoutes.getAll);
+// app.post('/api/jobposts', isAuthenticated, controllers.DashboardRoutes.create);
+// app.get('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.getById);
+// app.put('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.update);
+// app.delete('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.delete);
 app.get('/main', isAuthenticated, (req, res) => {
   res.render('layouts/main', { layout: false });
 });
