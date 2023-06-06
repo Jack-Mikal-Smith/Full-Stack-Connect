@@ -14,14 +14,14 @@ const HomeController = {
 
       if (!user) {
         // User not found
-        return res.render('layouts/index', { layout: false, error: 'Invalid email or password' });
+        return res.render('layouts/main', { layout: false, error: 'Invalid email or password' });
       }
 
       // Verify password
       const isValidPassword = user.checkPassword(password);
       if (!isValidPassword) {
         // Invalid password
-        return res.render('layouts/index', { layout: false, error: 'Invalid email or password' });
+        return res.render('layouts/main', { layout: false, error: 'Invalid email or password' });
       }
 
       // Store user information in session
