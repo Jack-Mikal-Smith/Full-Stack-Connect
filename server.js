@@ -6,7 +6,6 @@ const exphbs = require('express-handlebars');
 const controllers = require('./app/controllers');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-// server.js
 const helpers = require('./public/js/helpers');
 const JobPostings = require('./app/models/JobPostings');
 
@@ -48,9 +47,6 @@ app.use(express.static(path.join(__dirname, 'app')));
 
 // Define the isAuthenticated middleware
 const isAuthenticated = (req, res, next) => {
-  // Check if the user is authenticated (e.g., by checking the session or token)
-  // If authenticated, call next() to proceed to the next middleware or route handler
-  // If not authenticated, redirect or respond with an error
   if (req.session.userId) {
     next();
   } else {
@@ -83,36 +79,25 @@ app.post('/api/textposts', isAuthenticated, controllers.TextPostingController.cr
 app.get('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.getById);
 app.put('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.update);
 app.delete('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.delete);
-// app.get('/api/jobposts', isAuthenticated, controllers.DashboardRoutes.getAll);
-// app.post('/api/jobposts', isAuthenticated, controllers.DashboardRoutes.create);
-// app.get('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.getById);
-// app.put('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.update);
-// app.delete('/api/jobposts/:id', isAuthenticated, controllers.DashboardRoutes.delete);
 app.get('/main', isAuthenticated, (req, res) => {
   console.log('Accessing /main route');
   res.render('layouts/main', { layout: false });
 });
+
+// Render all job postings
 app.get('/jobpostings', isAuthenticated, async (req, res) => {
   try {
-    const jobPostings = await JobPostings.findAll();
-    res.render('all-posts', { jobPostings }); // Pass the jobPostings variable to the template
+    const jobPostings = await JobPostings.findAll({ raw: true });
+    res.render('all-posts', { jobPostings });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
 
-
-
-// Render all job postings
-app.get('/jobpostings', isAuthenticated, (req, res) => {
-  console.log('Accessing /jobpostings route');
-  res.render('all-posts', { layout: 'main' });
-});
-
 // Start the server
 const port = process.env.PORT || 3000;
-sequelize.sync({ force: false }).then(() => {
+sequelize.authenticate().then(() => {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
