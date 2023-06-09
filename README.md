@@ -8,14 +8,23 @@
     [- License](#license)
 
   ## Usage on Heroku
+
   - Navigate to this link: https://fullstack-connect.herokuapp.com/
+
   - Log in with these credentials: 
+
   Email: jack_smith21554@yahoo.com
+
   Password: password
+
   Clicking home will lead to our seeded User database.
+
   Clicking Projects will lead to our seeded Project database.
+
   Clicking Job Postings will initaite an attempt to generate the un-finished handlebars.
+
   Clicking logout will return you back to the sign in screen.
+
 
   ## Description
   This application will allow fellow students to network and keep in touch with each other. You can post job openings, post about whats going on, and look up different projects. 
