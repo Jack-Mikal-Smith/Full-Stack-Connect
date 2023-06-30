@@ -1,24 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Full Stack Connect</title>
-  <link type="text/css" href="/public/css/jass.css">
-  <link type="text/css" href="/public/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
-  <div>
-    <header>
-      <h1>
-       Full Stack Connect
-      </h1>
-    </header>
-      <main class="main-container">
-     {{{ body }}}
-      </main>
-      <div class="tabs-container">
-     {{> tabs-partial }}
-      </div>
-  </div>
-  </body>
+<body class="flex-column min-100-vh">
+  <nav class="navbar">
+    <ul class="flex-row">
+      <li class="li-inline nav-item"><a href="/">Home</a></li>
+      <li class="li-inline nav-item"><a href="/dashboard">Dashboard</a></li>
+      <li class="li-inline nav-item"><a href="/JobPosting">Job Posting</a></li>
+      <li class="li-inline nav-item"><a href="/TextPost">Comments</a></li>
+      <li class="li-inline nav-item"><a href="/login">Login</a></li>
+      <li class="li-inline nav-item"><a href="#" id="logout">Logout</a></li>
+    </ul>
+  </nav>
+  <header class="hero">
+    <h1 class="app-title"><a href="/">Full Stack Connect</a></h1>
+  </header>
+
+  <main class="col-auto">
+    {{{body}}}
+  </main>
+
+  <footer class="footer flex-row justify-center">
+    <a href="/dashboard/new">➕ New Post</a>
+  </footer>
+</body>
+
+<script src="/js/logout.js"></script>
 
 </html>

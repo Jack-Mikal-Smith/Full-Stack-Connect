@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class JobPostings extends Model {}
+class JobPosting extends Model {}
 
-JobPostings.init(
+JobPosting.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,20 +11,12 @@ JobPostings.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    organization: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    position: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     description: {
-      type: DataTypes.STRING(1234),
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id : {
-      type: DataTypes.UUID,
+    userId : {
+      type: DataTypes.INTEGER,
       references: {
         model: 'user',
         key: 'id',
@@ -41,8 +33,8 @@ JobPostings.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'jobPostings',
+    modelName: 'JobPosting',
   }
 );
 
-module.exports = JobPostings;
+module.exports = JobPosting;

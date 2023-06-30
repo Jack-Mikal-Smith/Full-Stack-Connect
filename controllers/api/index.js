@@ -1,13 +1,13 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const jobPostingRoute = require('./JobPostingsRoutes');
-const projects = require('./projectRoutes');
-const textPost = require('./textPostRoutes');
-const userRoutes = require('./userRoutes');
+// import routes
+const jobPostingRoutes = require("./job-posting-routes");
+const textPostRoutes = require("./text-post-routes");
+const userRoutes = require("./user-file-routes");
 
-router.use('/userRoutes', userRoutes);
-router.use('/jobPostingRoute', jobPostingRoute);
-router.use('/projectRoutes', projects);
-router.use('/textPost', textPost);
+// use routes
+router.use("/user", userRoutes);
+router.use("/jobpost", jobPostingRoutes);
+router.use("/textpost", textPostRoutes);
 
-module.exports = router
+module.exports = router;

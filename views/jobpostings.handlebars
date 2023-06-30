@@ -1,0 +1,18 @@
+<div class="posts">
+  {{#each jobPostings}}
+ <div class="jobPosting">
+  {{! Styling for jobPostings }}
+  <article class="card">
+    <div class="card-header">
+      <h2>{{jobPosting.title}}</h2>
+      <h4>{{jobPosting.User.firstName}}</h4>
+      <span>{{format_date jobPosting.date_published}}</span>
+    </div>
+    <div class="card-body">
+      <p>{{jobPostings.description}}</p>
+    </div>
+  </article>
+
+</div>
+  {{/each}}
+</div>

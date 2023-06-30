@@ -1,0 +1,14 @@
+<div class="post">
+  <article class="card">
+    <div class="card-header flex-row justify-space-between">
+      <h2>{{textPost.title}}</h2>
+      <div>
+        Posted by {{textPost.User.username}} on {{format_date textPost.date_published}}
+      </div>
+    </div>
+    <div class="card-body">
+      {{textPost.content}}
+    </div>
+  </article>
+
+  
