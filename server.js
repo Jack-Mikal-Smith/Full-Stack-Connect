@@ -1,104 +1,47 @@
-const express = require('express');
-const path = require('path');
-const sequelize = require('./config/connection');
-const exphbs = require('express-handlebars');
+// external imports
+const path = require("path");
+const express = require("express");
+const session = require("express-session");
+const exphbs = require("express-handlebars");
+// internal imports
+const helpers = require("./utils/helpers");
 
-const controllers = require('./app/controllers');
-const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const helpers = require('./public/js/helpers');
-const JobPostings = require('./app/models/JobPostings');
-
-const app = express();
-
-// Configure the Handlebars templating engine
-app.engine(
-  'handlebars',
-  exphbs({
-    helpers: {
-      format_date: helpers.format_date,
-    },
-  })
-);
-
-app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'app', 'views'));
+// setup server
+const route = express();
+const port = process.env.PORT || 3001;
+const sequelize = require("./config/connection");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const sess = {
-  secret: 'Super secret secret',
+  secret: "Super secret secret",
   cookie: {
     maxAge: 300000,
     httpOnly: true,
     secure: false,
-    sameSite: 'strict',
+    sameSite: "strict",
   },
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
+  store: new SequelizeStore({ db: sequelize }),
 };
-app.use(session(sess));
+
+route.use(session(sess));
+
+const hbs = exphbs.create({ helpers });
+
+// Configure the Handlebars templating engine
+route.engine("handlebars", hbs.engine);
+route.set("view engine", "handlebars");
 
 // Define routes
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'app')));
+route.use(express.json());
+route.use(express.urlencoded({ extended: false }));
+route.use(express.static(path.join(__dirname, "public")));
 
-// Define the isAuthenticated middleware
-const isAuthenticated = (req, res, next) => {
-  if (req.session.userId) {
-    next();
-  } else {
-    res.redirect('/'); // Redirect to the sign-in page
-  }
-};
+route.use(require("./controllers"));
 
-// Routes
-app.get('/', controllers.HomeController.renderSignIn);
-app.post('/', controllers.HomeController.signIn);
-
-// Protected routes
-app.get('/users', isAuthenticated, controllers.UserController.getAll);
-app.post('/users', isAuthenticated, controllers.UserController.create);
-app.get('/users/:id', isAuthenticated, controllers.UserController.getById);
-app.put('/users/:id', isAuthenticated, controllers.UserController.update);
-app.delete('/users/:id', isAuthenticated, controllers.UserController.delete);
-app.get('/api/projects', isAuthenticated, controllers.ProjectController.getAll);
-app.post('/api/projects', isAuthenticated, controllers.ProjectController.create);
-app.get('/api/projects/:id', isAuthenticated, controllers.ProjectController.getById);
-app.put('/api/projects/:id', isAuthenticated, controllers.ProjectController.update);
-app.delete('/api/projects/:id', isAuthenticated, controllers.ProjectController.delete);
-app.get('/api/jobposts', isAuthenticated, controllers.JobPostingController.getAll);
-app.post('/api/jobposts', isAuthenticated, controllers.JobPostingController.create);
-app.get('/api/jobposts/:id', isAuthenticated, controllers.JobPostingController.getById);
-app.put('/api/jobposts/:id', isAuthenticated, controllers.JobPostingController.update);
-app.delete('/api/jobposts/:id', isAuthenticated, controllers.JobPostingController.delete);
-app.get('/api/textposts', isAuthenticated, controllers.TextPostingController.getAll);
-app.post('/api/textposts', isAuthenticated, controllers.TextPostingController.create);
-app.get('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.getById);
-app.put('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.update);
-app.delete('/api/textposts/:id', isAuthenticated, controllers.TextPostingController.delete);
-app.get('/main', isAuthenticated, (req, res) => {
-  console.log('Accessing /main route');
-  res.render('layouts/main', { layout: false });
-});
-
-// Render all job postings
-app.get('/jobpostings', isAuthenticated, async (req, res) => {
-  try {
-    const jobPostings = await JobPostings.findAll({ raw: true });
-    res.render('all-posts', { jobPostings });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
-// Start the server
-const port = process.env.PORT || 3000;
-sequelize.authenticate().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+// route.listen(port)
+route.listen(port, () => {
+  console.log(`listening on port: ${port} - http://localhost:${port}`);
+  sequelize.sync({ force: false });
 });
