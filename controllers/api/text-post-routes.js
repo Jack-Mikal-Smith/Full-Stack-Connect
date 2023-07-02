@@ -5,16 +5,17 @@ const auth = require('../../utils/auth')
 // const TextPosts = require('../models/TextPosts');
 
 router.post('/', auth, async (req, res) => {
-  const body = req.body  
+  const body = req.body;  
   try {
       const newTextPost = await TextPost.create({
-        ...body,
+        title: body.title,
+        content: body.body,
         userId: req.session.userId
       });
-      res.status(201).json(newTextPost);
+      res.json(newTextPost);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: 'Server Error' });
+      res.status(500).json(error);
     }
 });
 
