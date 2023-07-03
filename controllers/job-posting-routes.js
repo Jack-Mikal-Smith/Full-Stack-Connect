@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { JobPosting, User } = require('../../models');
+const { JobPosting, User } = require('../models');
 // import auth utility
-const auth = require('../../utils/auth')
+const auth = require('../utils/auth')
 // const JobPostings = require('../models/JobPostings');
 
 router.get("/", auth, async (req, res) => {
@@ -27,18 +27,17 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.get("/new", auth, (req, res) => {
-  res.render("new-post", {
+  res.render("new-job-post", {
     layout: "jobpostings",
-    loggedIn: req.session.loggedIn
-  });
+    loggedIn: req.session.loggedIn,
+  });  
 });
 
 router.post('/', auth, async (req, res) => {
   const body = req.body;  
   try {
       const newJobPost = await JobPosting.create({
-        title: body.title,
-        content: body.body,
+        description: body.body,
         userId: req.session.userId
       });
       res.json(newJobPost);
@@ -47,8 +46,6 @@ router.post('/', auth, async (req, res) => {
       res.status(500).json(error);
     }
 });
-
-
 
 router.put('/:id', auth, async (req, res) => { 
   try {
