@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS fullstackconnect;
-CREATE DATABASE fullstackconnect;
+DROP DATABASE IF EXISTS fullstackconnect_db;
+CREATE DATABASE fullstackconnect_db;
